@@ -1,0 +1,5 @@
+
+```{r child = '_header.Rmd'}
+```
+
+# Análisis de correspondencies

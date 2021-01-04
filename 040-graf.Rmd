@@ -1,0 +1,257 @@
+```{r child = '_header.Rmd'}
+```
+
+# Gráficos con ggplot2
+
+> Un simple gráfico ha brindado más información a la mente del analista de datos que cualquier otro dispositivo. - John Tukey
+
+## Estructura básica de ggplot2
+
+ggplot2 es un sistema coherente para hacer gráficos.
+
+```{r fig.cap="Altura padres e hijos (Galton, 1885)"}
+suppressPackageStartupMessages(library(tidyverse))
+data(galton)
+
+ggplot(data= galton, mapping = aes(x=parent, y= child)) + 
+  geom_point()
+```
+
+La altura de los padres es la media entre la altura del padre y 1.08 veces la de la madre. En los datos hay 205 padres diferentes y 928 hijos. Los datos fueron tabulados y por lo tanto discretizado.
+
+Para visualizar los datos resulta útil introducir aleatoridad con jitter.
+
+```{r , fig.cap="Jitter altura padres e hijos (Galton, 1885)"}
+data(galton)
+
+ggplot(data= galton, mapping = aes(x=parent, y= child)) + 
+  geom_jitter()
+```
+
+Los componentes mínimos son:
+
+- `ggplot` define el conjunto de datos en el parámetro `data` que debería contener todas las variables del gráfico.
+- `geom_<función>`: Define el tipo de gráfico. Por ejemplo, *geom_point* es un gráfico de puntos.
+- `mapping`: define mapeo de parámetros estéticos (`x`, `y`...) a través de la función `aes()`.
+
+A diferencia de `plot`, `ggplot` permite asignar el gráfico a un objeto R.
+
+```{r}
+p1 <- ggplot(data= galton, mapping = aes(x=parent, y= child)) + 
+  geom_jitter()
+```
+
+Posteriormente, puedes añadirle otros elementos gráficos.
+
+```{r , fig.cap="Regresion Simple y recta diagonal altura padres e hijos (Galton, 1885)"}
+p1 <- p1 + 
+  geom_smooth(method='lm', se=FALSE, formula = y~x, aes(color = "lm")) +
+  geom_abline(aes(intercept = 0, slope = 1, color = "Diagonal y = x")) +
+  labs(title = "Relación altura padres e hijos (Galton, 1885)"
+   ,x = "Media altura padres (pulgadas)", y = "Altura hijos (pulgadas)")
+
+p1
+```
+
+> Si defines el mapeo de estéticos en `ggplot` ya no es necesario definirlos en los geoms.
+
+
+### Otros geoms {-}
+
+Otros ejemplos de geoms con los datos de países en 2007.
+
+```{r warnings=FALSE, message=FALSE}
+library(ggrepel)
+library(datos)
+
+paises07 <- as.data.frame(paises %>% filter(anio==2007))  # paises en 2007
+
+p1 <- ggplot(paises07, aes(x=esperanza_de_vida)) +
+  geom_histogram()
+
+p2 <- ggplot(paises07, aes(x=continente, fill=continente)) +
+  geom_bar()
+
+p3 <- ggplot(paises07, aes(y=esperanza_de_vida, fill=continente)) +
+  geom_boxplot()
+
+p4 <- ggplot(paises07 %>% arrange(desc(esperanza_de_vida)) %>% head(25),
+       aes(x=pib_per_capita, y=esperanza_de_vida)) +
+  geom_point() +
+  geom_label_repel(aes(label=pais), size=3)
+```
+
+```{r echo=FALSE, fig.width=11, fig.height=5, warning=FALSE, message=FALSE}
+suppressPackageStartupMessages(library(cowplot))
+# arrange two plots into one column
+plot_grid(p1, p2, p3, p4,
+  labels = c("histograma","barras","boxplot","Etiquetas"), ncol = 2)
+```
+
+### Otros elmentos gráficos {-}
+
+Otros elementos a tener en cuenta en la presentación: 
+
+- Permite crear un panel de gráficos utilizando variables de segmentación: `facet_wrap()`  y `facet_grid()` 
+-	Insertar etiquetas y anotaciones de texto: consulta la función `annotate()`, `geom_text()`, `geom_label()`, `geom_label_repel()`.
+-	Escalas: Permite cambiar los valores de los ejes. Por ejemplo, consulta `scale_x_continuous()` y `scale_x_log10()`.
+- Colores: Para cambiar las paletas de colores consulta `scale_colour_discrete()`, `scale_colour_brewer()`, `scale_colour_manual()`, `scale_fill_viridis()`, `scale_colour_gradient()`...
+-	Zoom: Importante, para realizar zoom utiliza xlim e ylim en: `coord_cartesian()`.
+-	Temas: Personaliza posición de la leyenda y resto de elementos gráficos, tamaños colores, fuente... Consulta: `theme()` y `theme_bw()`.
+- Interactivos: packages [gganimate](https://gganimate.com/) y [plotly](https://plotly.com/r/).
+
+Para ampliar la lectura consulta:
+
+- [R for Data Science](https://r4ds.had.co.nz/) from Garrett Grolemund and Hadley Wickham.
+- [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/) de Hadley Wickham.
+- [ggplot2 extensions guide](https://exts.ggplot2.tidyverse.org/gallery/) lista los paquetes que extienden `ggplot2`.
+- La [{ggplot2} cheat sheet](https://www.statsandr.com/blog/files/ggplot2-cheatsheet.pdf).
+
+
+##### Actividad guiada 1.3. {-}
+
+Vamos a mejorar de nuevo el informe de los países introduciendo:
+
+- Haz un panel de boxplot por año del PIB per cápita (escala log10) y la esperanza de vida.
+- Mejora el gráfico de dispersión de países:
+   - Recodifica Oceanía como Asia y Modifica los colores de los continentes.
+   - Utiliza los siguiente paleta de colores:
+     - "blue": "África"
+     - "green": "Américas"
+     - "red": "Asia"
+     - "yellow": "Europa"
+   - Inserta Etiquetas para España, China, Etiopía y Canadá.
+
+Observa:
+
+- Se han añadido parámetros estéticos: `color` y `size`.
+- La escala del eje x (pib_per_capita) se ha transformado a escala logarítmica con `scale_x_log10()`.
+- Se ha definido un panel temporal con `facet_wrap()` 
+- Hay que imprimir el gráfico con `print()`
+- Se ha recodificado una variable factor.
+- Se ha parametrizado los colores de los continentes y las etiquetas de los países.
+- La función `describir()` devuelve una lista de resultados (plots y tablas).
+- Se han introducido boxplots.
+- Se ha construido un data frame con los países con etiqueta.
+- Se ha seleccionado las variables a presentar en el summary.
+
+Puedes ver la solución en \@ref(act13) .
+
+> Hans Rosling de Gapminder utilizó un gráfico muy parecido a éste, añadiendo un quinto eje (el tiempo) en una famosa conferencia [TED Talk](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen) (14,6M de visualizaciones). Dedícale 1 minuto a ver la simulación dándole al botón de play (abajo izquierda), en el [siguiente enlace](https://www.gapminder.org/tools/#$chart-type=bubbles). La herramienta utilizada Trendalyzer fue posteriormente adquirida por Google.
+
+## Actividad guiada 1.3 {#act13}
+
+```
+---
+title: "Actividad 1.3"
+output: html_document
+---
+```
+
+```{r}
+library(knitr)
+library(datos)
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Gráfico de dispersión de países {-}
+
+```{r, fig.width=11,fig.height=8, fig.cap="Panel países (Fuente: Elaboración propia con datos de Gapminder)", fig.align="center", message=FALSE}
+
+p1 <- ggplot(paises, aes(x=pib_per_capita, y=esperanza_de_vida
+      , color=continente, size=poblacion)) +
+    geom_point() +
+    scale_x_log10() +
+    labs(title="Panel de países del 1952 al 2007"
+      , x = "Logaritmo base 10 del PIB per cápita ($ americanos, ajustados según inflación)"
+      , y = "Esperanza de vida (años)") +
+    facet_wrap(~anio)
+
+print(p1)
+```
+
+Se observa una clara relación entre tener un mayor PIB per cápita (logaritmo base 10) y la esperanza de vida media de los países. 
+
+Se observa como África ha tenido históricamente menor PIB y menor esperanza de vida. Se observa Asia y América en su conjunto, han aumentado en PIB y esperanza de vida.
+
+### Preparación de datos
+
+```{r}
+library(ggrepel)
+
+paises_informe <- paises
+# Recodifica Oceanía por Asia
+paises_informe$continente[paises_informe$continente=="Oceanía"] <- "Asia"
+# Elimina Oceanía de los levels
+paises_informe$continente <- factor(paises_informe$continente)
+
+# Paleta de colores
+colores_continente <- c("blue","green", "red", "yellow") 
+names(colores_continente) <- c("África", "Américas", "Asia", "Europa")
+
+# Etiquetas
+etiquetas_paises <- c("España","China","Etiopía","Canadá")
+
+
+# funcion describir
+describir <- function(data, colores, etiquetas) {
+  
+  # filtra paises con etiqueta
+  data_etiquetas <- data[data$pais %in% etiquetas, ]
+  
+  resultados <- list()
+
+  resultados[["pib_per_capita"]] <- 
+    ggplot(data, aes(x=anio, y=pib_per_capita, group=anio)) +
+    geom_boxplot()+
+    scale_y_log10()
+
+  resultados[["esperanza_de_vida"]] <- 
+    ggplot(data, aes(x=anio, y=esperanza_de_vida, group=anio)) +
+    geom_boxplot()
+
+  resultados[["dispersion"]] <- ggplot(data, aes(x=pib_per_capita, y=esperanza_de_vida
+      , color=continente, size=poblacion)) +
+    geom_point() +
+    scale_x_log10() +
+    scale_colour_manual(values = colores) +
+    geom_label(data=data_etiquetas
+      , mapping=aes(x=pib_per_capita, y=esperanza_de_vida, label=pais)
+      , size=3, color="black") +
+    labs(title="Panel de países del 1952 al 2007"
+      , x = "Logaritmo base 10 del PIB per cápita ($ americanos, ajustados según inflación)"
+      , y = "Esperanza de vida (años)") +
+    facet_wrap(~anio)
+
+  resultados[["summary"]] <- summary(data[,c("anio","continente","esperanza_de_vida","pib_per_capita")])
+  
+  return(resultados)
+}
+
+resumen <- describir(paises_informe, colores_continente, etiquetas_paises)
+```
+
+### Descriptivo boxplot
+
+```{r, echo=FALSE, fig.width=11, fig.height=2, fig.cap="Boxplot PIB per càpita (Continente y año) - Escala Log10", fig.align="center",message=FALSE}
+# CREA UN GRAFICO DE BOX-PLOT PARA "pib_per_capita"
+resumen[["pib_per_capita"]]
+```
+
+Se observa como los valores del boxplot aumentan, es decir, el PIB cada vez es mayor. Aunque parece que el tamaño de las cajas (difernecia entre 1r y 3r cuantil), cada vez son mas anchas.
+
+```{r, echo=FALSE, fig.width=11, fig.height=2, fig.cap="Boxplot Esperanza de vida (Continente y año)", fig.align="center",message=FALSE}
+# CREA UN GRAFICO DE BOX-PLOT PARA "esperanza_de_vida"
+resumen[["esperanza_de_vida"]]
+```
+
+A su vez, la esperanza de vida también aumenta. El eje central de la caja (la mediana) cada vez se sitúa más en al parte superior de la caja (cerca del 3r cuantil).
+
+### Gráfico de dispersión de países
+
+```{r, echo=FALSE, fig.width=11,fig.height=8, fig.cap="Panel países (Fuente: Elaboración propia con datos de Gapminder)", fig.align="center",message=FALSE, dpi=150}
+resumen[["dispersion"]]
+```
+
+Vemos como España y Canadá siempre han estado en la parte superior y Etiopía en la parte inferior en PIB per cápita y esperanza de vida. En cambio, China ha evolucionado positivamente en estos dos aspectos, pasando de la parte inferior a la parte superior de la nube de países.

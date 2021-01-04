@@ -1,0 +1,9 @@
+book_filename: "meacp"
+delete_merged_file: true
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Taula '
+    eq: 'Fórmula '
+  ui:
+    chapter_name: "Capítol "

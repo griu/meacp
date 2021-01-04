@@ -1,0 +1,271 @@
+```{r child = '_header.Rmd'}
+```
+
+# Colecciones de objetos
+
+## Tipo básicos
+
+### Numeric {-}
+
+Los números, en R, en general se guardan en coma flotante y doble precisión (`"double"`). 
+
+```{r}
+a <- 3.7
+class(a)
+typeof(a)
+```
+
+> Todo objeto tiene una clase que se puede consultar con la función `class()`. Adicionalmente se puede saber el tipo de datos interno con `typeof()`.
+
+La precisión doble es exacta hasta los 16 dígitos. La siguiente expresión debería dar 0, pero no es así.
+
+```{r}
+sqrt(2)^2 - 2
+```
+
+### Integer {-}
+
+Para indicar que es un entero, hay que finalizar el número con L mayúscula. Ahorran memoria pero pierden precisión. No es muy habitual su uso en Data Science.
+
+```{r}
+a <- 4L
+class(a)
+typeof(a)
+```
+
+### Logical {-}
+
+Los tipos lógicos `TRUE` (o `T`) y `FALSE` (o `F`), son de uso común para filtrar vectores. 
+
+```{r}
+a <- 3 > 4
+a
+class(a)
+typeof(a)
+```
+
+Se pueden convertir a 1 y 0 (respectivamente) con `as.numeric()`.
+
+```{r}
+b <- as.numeric(a)
+b
+```
+
+###  Character {-}
+
+Texto entre comas simple o dobles.
+
+```{r}
+a <- "hola"  # o con comas simples: 'hola' 
+class(a)
+typeof(a)
+```
+
+###  Factor {-}
+
+Información categórica, por ejemplo, el color de los ojos. Por su naturaleza de conjunto, se explican dentro de la sección de vectores.
+
+###  Fechas y horarios {-}
+
+Las fechas y horarios, son una clase compleja. Internamente son de tipo `"double"` con dos clases:  `"POSIXct"` `"POSIXt"`.
+
+```{r}
+a <- Sys.time()
+a
+class(a)
+typeof(a)
+```
+
+La clase `"POSIXct"` internamente almacena el número de **segundos** transcurridos entre la fecha y las 12:00 AM del 1 de enero de 1970 (en la zona del Tiempo Universal Coordinado (UTC)). Se puede obtener este valor con `unclass()`.
+
+```{r}
+unclass(a)  # muestra el valor interno de a
+```
+
+La clase `Date`, almacena sólo la fecha.
+
+```{r}
+b <- as.Date(a)
+b
+class(a)
+typeof(a)
+```
+
+La clase `Date` contiene el número de **días** transcurridos des de 1 de enero de 1970.
+
+```{r}
+unclass(b)
+```
+
+Se ampliará esta clase en el capítulo dedicado al package `lubridate`.
+
+## Vectores
+
+Se define mediante la función `c()`. Adopta el mismo tipo básico que los datos que lo componen.
+
+```{r}
+class(c(3.1,9.7))
+class(c(4L, 8L))
+class(c(TRUE, FALSE))
+class(c("es", "un", "vector"))
+class(c(Sys.Date(), Sys.Date() + 1, Sys.Date()+2))
+```
+
+### Longitud {-}
+
+Con `length()` se obtiene el número de elementos.
+
+```{r}
+a <- c(2,4,6)
+length(a)
+```
+
+### Nombres {-}
+
+Los vectores pueden tener atributos. Es de uso común el atributo `names`.
+
+```{r}
+names(a) <- c("dos","cuatro", "seis")
+a
+```
+
+### Operaciones aritméticas {-}
+
+Operaciones aritméticas con vectores.
+
+```{r}
+c(1,2,3) * 2  # multiplicación por escalar
+c(1,2,3) + c(4,5,6) # suma vectores
+c(1,2,3) * c(4,5,6) # producto elemento a elemento
+```
+
+### Operaciones con texto {-}
+
+```{r}
+paste(1:3,c("uno","dos", "tres"), sep="-") # junta vectores
+paste(c("Hola,","Mundo!"), collapse = " ") # junta elementos de un vector
+substr("abcdefgh", 3, 4)   # subcadenas
+```
+
+### Secuencias {-}
+
+```{r}
+3:5
+seq(from = 2, to = 6, by = 2)
+rep(0, times = 3)
+rep(1:3, each = 2)
+```
+
+### Factor {-}
+
+Son vectores de enteros, donde cada entero tiene asignado una etiqueta.  
+
+```{r}
+color_ojos <- factor(c("marron", "azul",  "azul", "verde"))
+color_ojos
+```
+
+El atributo `levels` contiene las etiquetas. Se puede consultar con `levels()`. Por defecto, los levels se crean en orden alfanumérico a  partir de los valores del vector. También se pueden definir por parámetro. 
+
+```{r}
+color_ojos <- factor(c("marron", "azul",  "azul", "verde"),
+                     levels = c("marron", "azul", "verde"))
+levels(color_ojos)
+```
+
+Los factores, se codifican internamente como 'integer'. Cada entero, contiene la posición en el vector de `levels`. Esta forma de codificar, ahorra memoria y acelera los cálculos. Se puede recuperar los valores `integer` con `unclass()`.
+
+```{r}
+class(color_ojos)
+typeof(color_ojos)
+unclass(color_ojos)
+```
+
+También se pueden transformar a `character` con `as.character()`.
+
+```{r}
+as.character(color_ojos)
+```
+
+## Matrices
+
+Las matrices añaden otra dimensión (fila) a los vectores (columna). 
+
+```{r}
+a <- matrix(1:6, ncol = 2)
+a
+```
+
+Por defecto se rellenan por columna, pero se puede modificar a rellenado por filas.
+
+```{r}
+a <- matrix(1:6, ncol = 2, byrow = TRUE)
+a
+```
+
+### Dimensión {-}
+
+Se puede consultar el número de filas y columnas con `dim()`, `ncol()` y `nrow()`.
+
+```{r}
+dim(a)
+nrow(a)
+ncol(a)
+```
+
+### Nombres {-}
+
+Se puede asignar nombres a las filas y a las columnas.
+
+```{r}
+colnames(a) <- paste0("V",1:ncol(a))
+rownames(a) <- LETTERS[1:(nrow(a))]
+a
+```
+
+### Arrays
+
+Se puede generalizar las matrices a más de 2 dimensiones con `array()`.
+
+```{r}
+a <- array(11:18, dim=c(2,2,2))
+a
+```
+
+## Listas
+
+Las listas permiten agrupar objetos R con distintos tipos de datos.
+
+```{r}
+a <- list(11:13, "R", matrix(1:4,2,2))
+a
+```
+
+### Nombres {-}
+
+Se les puede asignar un nombre a cada elemento.
+
+```{r}
+names(a) <- c("es_num", "es_char", "es_matriz")
+```
+
+## Data frames
+
+Formalmente son una lista de vectores de la misma longitud. Tienen forma de matriz.
+
+```{r}
+a <- data.frame(V1=c(1,2,3), V2=c("R","S","T"), V3=c(TRUE, FALSE,TRUE))
+class(a)
+typeof(a)
+
+kable(a)
+```
+
+Para conocer la estructura del objeto es útil la función `str()`.
+
+```{r}
+str(a)
+```
+
+Se utilizan las mismas reglas que en las matrices para saber la dimensión, nombres de filas y columnas.
+

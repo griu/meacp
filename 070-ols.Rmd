@@ -1,0 +1,7 @@
+# (PART) Regressió {-}
+
+```{r child = '_header.Rmd'}
+```
+
+# Regressió lineal
+

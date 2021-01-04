@@ -1,0 +1,145 @@
+
+```{r child = '_header.Rmd'}
+```
+
+# Elementos básicos
+
+Aunque se presuponen unos conocimientos iniciales de R, a continuación se hace un repaso de R y RStudio.
+
+## Objetos de R
+
+### Asignar objetos {-}
+
+Puedes asignar datos a objetos R. Estos objetos se guardan en memoria.
+
+```{r}
+a <- 0
+a
+b <- a + 1
+b
+```
+
+> Se puede utilizar `=` , pero, en R se usa `<-` para diferenciarlo de los valores de los parámetros de las funciones.
+
+Consulta la [guía de estilo de Tydiverse](https://style.tidyverse.org/syntax.html#object-names) para crear nombres de objetos.
+
+### Listar objetos {-}
+
+Los objetos aparecen en la pestaña de *environment* (ventana superior derecha). 
+
+También puedes acceder al listado con la función `ls()`.
+
+```{r}
+ls()
+```
+
+### Guardar objetos {-}
+
+Los objetos R, se pueden guardar en ficheros .RData con `save()`.
+
+```{r}
+save(a, b, file="www/temp/ejemploSave.RData")
+```
+
+> `save.image(file="www/temp/ejemploSave.RData")`  guarda todos lo objetos del environment actual
+
+### Borrar objetos {-}
+
+Se pueden borrar de la memoria con `rm()`:
+
+```{r}
+rm(a,b)
+rm(list=ls()) # borra todo el environment.
+ls()
+```
+
+### Cargar objetos {-}
+
+Para cargar en memoria de nuevo los objetos, se utiliza `load()`:
+
+```{r}
+load("www/temp/ejemploSave.RData")
+ls()
+```
+
+##### Actividad guiada 1.2. {-}
+
+Consiste en comprender la evolución de la riqueza y la esperanza de vida de las personas a nivel de país y continente. Para ello, contamos con los datos de países coleccionados por Gapminder y traducidos al Castellano en el package datos.
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(datos)
+library(knitr)
+
+paises07 <- as.data.frame(paises %>% filter(anio==2007))
+
+kable(paises07 %>% head(10), caption = "Datos de Gapminder")
+```
+
+Los datos muestran la esperanza de vida media en 142 países, población total y su nivel de riqueza medido con el Producto Interior Bruto (PIB) per cápita.
+
+Vamos a crear un resumen HTML de la `esperanza_de_vida` y el `pib_per_capita` en 2007 con datos de `países` del package `datos`.
+
+Puedes ver la solución en \@ref(act12) .
+
+## Scripts
+
+Para crear un nuevo script de R puedes ir al menú: `File > New File > R Script`. Por ejemplo, escribe:
+
+```{r, eval=FALSE}
+print("Hello World!")
+```
+
+Ejecuta la línea situando el cursor encima y clica el botón **Run** (o `Ctrl + Enter`). 
+
+Guardar tu código: `File > Save as >` nombre del fichero.R (`www/temp/holaMundo.R`).
+
+Ejecuta tu código con `source()`. 
+
+```{r}
+cat('print("Hello World!")', file="www/temp/holaMundo.R")
+source("www/temp/holaMundo.R")
+```
+
+> Si no utilizas `print()`, al realizar `source()`, no va a devolver ningún valor por pantalla.
+
+## Actividad guiada 1.2 {#act12}
+
+```
+---
+title: "Actividad 1.2"
+output: html_document
+---
+```
+
+```{r}
+library(knitr)
+library(datos)
+suppressPackageStartupMessages(library(tidyverse))
+knitr::opts_chunk$set(echo = TRUE)
+
+# DATOS: Esto se explica mas adelante en el temario
+paises07_2VAR <- paises %>% 
+    filter(anio==2007) %>% 
+    dplyr::select(pib_per_capita, esperanza_de_vida)
+```
+
+### Gráfico de dispersión de países
+
+```{r, fig.cap="Fuente: Elaboración propia con datos de Gapminder", fig.align="center", message=FALSE}
+plot(paises07_2VAR, type = "p", col = "red", pch=19
+  , main = "Países (Año: 2007)"
+  , xlab = "PIB per cápita ($ americanos, ajustados según inflación)"
+  , ylab = "Esperanza de vida (años)", cex.main=1)
+```
+
+Se observa cómo los países que tienen un valor de PIB per cápita inferior a 10.000$ tienen una esperanza de vida muy inferior al resto.
+
+### Tabla descriptiva de países
+
+```{r}
+# utiliza el comando kable para "resumen" y añade un titulo 
+kable(summary(paises07_2VAR), caption = "Resumen (Fuente: Elaboración propia con datos de Gapminder)")
+```
+
+Se observa los principales valores descriptivos del pib per cápita y la esperanza de vida de los países en 2007. Por ejemplo, el país con menor esperanza de vida tiene 39,61 años de esperanza de vida media. En cambio, el país mayor esperanza de vida tiene 82,60 años de esperanza de vida media. Es decir, las personas del segundo país viven, de media, el doble de años.

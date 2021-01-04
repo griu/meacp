@@ -1,0 +1,7 @@
+# (PART) Reducció dimensió y Clustering {-}
+
+```{r child = '_header.Rmd'}
+```
+
+# Componentes principales
+

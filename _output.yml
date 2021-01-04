@@ -1,0 +1,20 @@
+bookdown::gitbook:
+  css: style.css
+  split_bib: no
+  citation_package: natbib
+  search: yes
+  config:
+    toc:
+      collapse: section
+      before: |
+        <li><b><a href="./index.html"><img style="float: left; margin-right: 5px;" src="www/images/01_general/logo.png" width="40" height="40"></img>Mètodes Estadístics Aplicats</a></b></li>
+      after: |
+        <li><a href="https://github.com/griu/meacp" target="blank">Repositori GiutHub</a></li>
+    download: ["pdf"]
+    sharing: no
+    edit:
+      link: https://github.com/griu/meacp/edit/master/%s
+      text: "Edit"
+    fontsettings:
+      family: sans
+      theme: night

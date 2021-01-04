@@ -1,0 +1,100 @@
+# (PART) Trabajo con datos {-}
+
+```{r child = '_header.Rmd'}
+```
+
+# Lectura escritura 
+
+A continuación, se presentan las funciones para la lectura/escritura de datos, cruce y construcción de tablas resumen. 
+
+### IMPORTAR Y EXPORTAR DATOS
+
+RStudio aporta facilidades para la importación de datos a través del menú: `File -> Import Data set -> From Text...`
+
+#### LECTURA TEXTO CON SEPARADOR
+
+Para leer el siguiente fichero de texto:
+
+```{r}
+library(knitr)
+library(pander)
+library(kableExtra)
+
+cat(paste0(readLines("www/data/mtcars.csv", n = 6), collapse="\n"))
+```
+
+Dado que se trata de un fichero con un carácter separado, la función genérica para teste tipo de ficheros es `read.table()`.
+
+```{r}
+mtcars <- read.table("www/data/mtcars.csv", dec=".",sep=",", header=TRUE)
+```
+
+Los parámetros especificados son:
+
+- `dec`: El separador decimal. En Europa se acostumbra a utilizar la coma ",".
+- `sep`: El separador de columnas. Es habitual usar también ";" y "\\t" cuando es un tabulador.
+- `header`: Indica si la primera fila contiene el nombre de las variables o no.
+
+También es común el uso de `fileEncoding="Latin1"` cuando el fichero se ha creado con Windows y utiliza caracteres especiales de texto (tildes, ...).
+
+Dada la estructura del fichero, con `read.csv()` la carga es más simple.
+
+```{r}
+mtcars <- read.csv("www/data/mtcars.csv")
+```
+
+Cuando el csv es europeo, "," decimal y ";" como separador, se utiliza `read.csv2()`.
+
+Es una buena práctica verificar su carga con `dim()`, `head()` y `summary()`.
+
+```{r}
+dim(mtcars)
+```
+
+```{r}
+kable(head(mtcars))
+```
+
+```{r}
+kable(summary(mtcars))
+```
+
+#### ESCRITURA TEXTO CON SEPARADOR
+
+Para la escritura, puedes utilizar sus equivalentes: `write.table()`, `write.csv()`, `write.csv2()`. Cabe destacar algunas pequeñas variaciones.  
+
+```{r}
+write.csv2(mtcars, file="www/temp/mtcars2.csv", row.names=FALSE, na="")
+```
+
+- `row.names`: Si no se especifica, por defecto, se inserta el número de fila.
+- `na`: Si no se especifica, introduce el texto `NA`.
+
+Observa como el nuevo csv ahora tiene el formato de csv europeo.
+
+```{r}
+cat(paste0(readLines("www/temp/mtcars2.csv", n = 6), collapse="\n"))
+```
+
+#### TEXTO CON ANCHO FIJO
+
+Veamos un ejemplo de fichero de ancho fijo:
+
+```{r}
+cat(paste0(readLines("www/data/fwf-sample.txt", n = 6), collapse="\n"))
+```
+
+Para leer texto de ancho fijo, se utiliza `read.fwf()`.
+
+```{r}
+fwf_sample <- read.fwf("www/data/fwf-sample.txt", widths=c(20,10,12)
+                     , col.names=c("name", "state", "ssn"))
+```
+
+- `widths`: Son los anchos de cada variable.
+- `col.names`: Nombres de las variables.
+
+```{r}
+kable(fwf_sample)
+```
+

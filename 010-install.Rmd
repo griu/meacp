@@ -1,0 +1,117 @@
+# (PART) Computació en R {-}
+
+```{r child = '_header.Rmd'}
+```
+
+# Posta a punt
+
+## Instalació
+
+### R {-}
+
+R és [GNU](https://www.gnu.org/) i per tant Programari lliure). És un entorn i llenguatge per a als gràfics i la computació estadística.
+
+Si bien R funciona perfectamente des de consola de texto (R-GUI en windows o bien, ejecutando comando R desde xterm en Linux) en el curso se utilizará la interfaz gráfica de RStudio.  Ejecuta la siguiente línea.
+
+```{r}
+6 / (4 - 1)
+```
+
+> Puedes recuperar las líneas ejecutadas previamente apretando la tecla Arriba del cursor.
+
+Pots instalar R tant en Linux, Mac com e Windows des de: https://cran.r-project.org/ .
+
+### RStudio {-}
+
+El lenguaje R se puede escribir mediante editor de texto en ficheros con extensión `*.R`. El entorno RStudio (ver imagen), incorpora, además de un editor y de la consola de R, un conjunto de utilidades que facilitan las tareas de programación y análisis de datos: navegador de ficheros, ayuda, objetos en memoria, visor de gráficos...
+
+```{r bas-rstudio, fig.align='center',echo=FALSE, out.width='750px', fig.cap="Entorno RStudio (Fuente: Elaboración propia)."}
+knitr::include_graphics("www/images/02_basics/rstudio.png")
+```
+
+Per programar en R utilitzarem el IDE RStudio. Un cop hagis instal·lat R, pots instalar RStudio des de:  https://rstudio.com/products/rstudio/download/#download .
+
+### Paquets de R {-}
+
+Hi ha tota una comunitat de desenvolupadors que amplien les funcionalitats de R a través de llibreries o paquets. Per utilizar auquests funcionalitats, primer es necesari instalar els paquets. 
+
+Se publican en [CRAN](https://cran.r-project.org/), un repositorio centralizado. Actualmente contiene más de 16 mil paquetes. 
+
+Los más importantes, como `stats`, `graphics`, `methods`, `base...` están ya disponibles en la consola. 
+
+Otros, por ejemplo `foreign` (leer datos de fuentes externas), vienen instalados, pero es necesario cargarlos con `library(foreign)` al abrir la sesión. 
+
+Otros, la mayoría, es necesario instalarlos antes con `install.packages("nombre_paquete")`.
+
+A continuació, fes la instal·lació dels següents paquetes, executant, d'una en una, cadascuna  de les següent comandes des de la consola de R o RStudio:
+
+```
+install.packages("pander")
+install.packages("kableExtra")
+install.packages("tidyverse")
+install.packages("ggrepel")
+install.packages('rmarkdown')
+install.packages("DT")
+install.packages("plotly")
+install.packages("cowplot")
+install.packages("car")
+install.packages("corrplot")
+install.packages("FactoMineR")
+install.packages("factoextra")
+install.packages("psych")
+install.packages("cluster")
+install.packages("gapminder")
+install.packages("datos")
+install.packages("UsingR")
+```
+
+## Rmarkdown (*.Rmd) 
+
+Puedes generar de forma dinámica documentos PDF, Word (como éste que estás leyendo) o HTML mediante ficheros de tipo Rmarkdown (*.Rmd). Este formato, permite combinar texto con formato, código R y resultados (tablas y gráfcos) ejecutados por R.
+
+> Puedes acceder a versión Bookdown, un tipo de RMarkdown de este documento en [Github.](https://github.com/griu/meacp)
+
+##### Actividad guiada 1.1 {-}
+
+Genera tu primer documento RMarkdown. En RStudio, accede al menú `File > New File > R Markdown > Documentos > html` y edita `Title`y `Author` del formulario de la imagen y el formato de salida HTML > aprieta `OK`.
+
+```{r bas-rmarkdown, fig.align='center',echo=FALSE, out.width='500px', fig.cap="Menú de nuevo RMarkdown (Fuente: Elaboración propia)."}
+knitr::include_graphics("www/images/02_basics/rmarkdown1.png")
+```
+
+Guarda el documento generado automáticamente con el nombre `11_actividad.Rmd`. Ahora genera el documento apretando el botón **Knit**.
+
+Puedes ver la solución en \@ref(act11) .
+
+## Actividad guiada 1.1 {#act11}
+
+```
+---
+title: "Actividad 1.1."
+author: "FC"
+date: "8/15/2020"
+output: html_document
+---
+```
+
+### R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+# Utiliza el comando summary para mostrar un resumen general de cars
+summary(cars)
+```
+
+### Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+# Utiliza el comando plot para visualizar pressure en un gráfico
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

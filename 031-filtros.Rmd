@@ -1,0 +1,171 @@
+```{r child = '_header.Rmd'}
+```
+
+# Filtrado de objetos
+
+Para filtrar matrices y data frames se utiliza corchetes separados por coma `[,]`. En el caso de vectores, corchetes simples `[]`.
+
+Los datos de `paises07` servirán de ejemplo.
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(datos)
+library(knitr)
+
+paises07 <- as.data.frame(paises %>% filter(anio==2007))
+
+class(paises07)
+dim(paises07)
+colnames(paises07)
+```
+
+Con `head()` (respec. `tail()`), se obtiene las primeras (resp. últimas) 6 filas.
+
+```{r, warning=FALSE}
+kable(head(paises07))
+```
+
+## Enteros positivos {-}
+
+Se puede indicar las posiciones fila y columna a seleccionar. Por ejemplo, la esperanza de vida de Angola y Australia. 
+
+```{r}
+paises07[c(4,6),4]
+```
+
+Para evitar que el resultado pase de data frame a vector, se utiliza el parámetro `drop`.
+
+```{r}
+kable(paises07[c(4,6), 4, drop=FALSE])
+```
+
+Si no se informa la columna (alternativamente fila), se seleccionan todos sus valores.
+
+```{r}
+kable(paises07[c(4,6),])
+```
+
+En el caso de vectores, se utiliza un solo corchete.
+
+```{r}
+a <- c(5,2,4,7,9)
+a[c(2,2,1,5)]
+```
+
+Observa que se pueden repetir posiciones o índices. Tampoco es necesario mantener un orden monótono en los índices.
+
+## Enteros negativos {-}
+
+Selecciona todas las columnas (alternativamente las filas) excepto las posiciones indicadas con valor negativo.
+
+```{r}
+kable(head(paises07[,-c(3,5)]))
+```
+
+## Nombres {-}
+
+Se utiliza habitualmente para seleccionar las columnas por su nombre.
+
+```{r}
+kable(head(paises07[, c("pais","esperanza_de_vida")]))
+```
+
+## Dolares y dobles corchetes {-}
+
+En listas y data frames se puede obtener un elemento con `$nombre` , o bien, con corchetes dobles
+
+```{r}
+head(paises07$pib_per_capita)
+head(paises07[["esperanza_de_vida"]])
+```
+
+> Una fuente habitual de error es intentar seleccionar las columnas de un objeto `matrix` con `$nombre` o dobles corchetes. Esto produce un error.
+
+## Valores lógicos {-}
+
+Se seleccionan las posiciones con valores `TRUE` o `T` y se descartan las posiciones `FALSE` o `F`.
+
+```{r}
+kable(head(paises07[,c(F, F, F, T, F, T)]))
+```
+
+La forma habitual de seleccionar elementos de una matriz es mediante expresiones lógicas.
+
+```{r}
+kable(paises07[paises07$continente=="Oceanía",])
+```
+
+Para construir estas expresiones, puedes utilizar los siguientes operadores.
+
+```{r, include=FALSE}
+a <- data.frame(
+ Operador=c('a > b'
+    ,'a >= b'
+    ,'a < b'
+    ,'a <= b'
+    ,'a == b'
+    ,'a != b'
+    ,'a %in% c(b,c,d)')
+,Ejemplo=c('¿a mayor que b?'
+    ,'¿a mayor o igual que b?'
+    ,'¿a menor que b?'
+    ,'¿a menor o igual que b?'
+    ,'¿a igual a b?'
+    ,'¿a distinto b?'
+    ,'¿a esta en el vector b, c o d?'))
+kable(a)
+```
+
+```{r, echo=FALSE}
+kable(a)
+```
+
+Operadores lógicos: (fuente: elaboración propia)
+
+Estos operadores resultan extremadamente útiles en vectores.
+
+```{r}
+1 > c(0, 1, 2)
+c(1, 2, 3) != c(3, 2, 1)
+```
+
+El operador `%in%` tiene un funcionamiento un poco distinto. Evalúa cada elemento del objeto situado a su izquierda respecto a todos los  elementos del objeto situado a su derecha.
+
+```{r}
+c(1, 2, 3, 4) %in% c(3, 4, 5)
+```
+
+> En operadores booleanos utiliza `==` en vez del operador '='. Este último, hace la misma operación que `<-` de asignación de valores a objetos.
+
+## Operaciones booleanas {-}
+
+Puedes construir expresiones lógicas complejas utilizando los operadores booleanos habituales:
+
+```{r, include=FALSE}
+a <- data.frame(Operador=c('cond1 & cond2'
+    ,'cond1 | cond1','cond1 xor cond1'
+    ,'!cond1','any(cond1,cond2,...)','all(cond1,cond2,...)')
+  , Significado=c('¿Son las dos condiciones ciertas?'
+    ,'¿Es cierta alguna de las dos condiciones?'
+    , '¿Es cierta sólo una de las condiciones?'
+    , '¿Es falsa la condición?' 
+    , '¿Es cierta alguna de las condiciones?' 
+    , '¿Son ciertas todas las condiciones?'))
+```
+
+```{r, echo=FALSE}
+kable(a)
+```
+
+Operaciones booleanas (fuente: elaboración propia).
+
+Para seleccionar los países asiáticos con esperanza de vida media en 2007 superior o igual a 80 años.
+
+```{r}
+consulta <- paises07[paises07$continente=="Asia" & paises07$esperanza_de_vida >= 80 ,]
+```
+
+```{r}
+kable(consulta)
+```
+

@@ -1,0 +1,195 @@
+
+```{r child = '_header.Rmd'}
+```
+
+# Resumenes de agregados 
+
+R tiene muchas opciones para construir agregados.
+
+## Summary
+
+Para tener una primera impresión sobre los datos utiliza `summary()`.
+
+```{r}
+paises07Summ <- paises07
+paises07Summ$pais <- as.character(paises07Summ$pais)
+paises07Summ$fecha <- as.Date(paste(paises07Summ$anio,"12","31",sep="-"),"%Y-%m-%d")
+paises07Summ$es_grande <- paises07Summ$poblacion > 30*10^6
+paises07Summ$pib_per_capita[c(34,70,108)] <- NA
+
+kable(summary(paises07Summ[,c("pais","continente","pib_per_capita","es_grande","fecha"),]))
+```
+
+`summary` en `factor` y `logic` devuelve una tabla de frecuencias, en cambio en `character` no. En `numeric`y `Date` devuelve 6 estadísticos básicos de resumen más el conteo de `NA`s.
+
+### Estadísticos basicos
+
+Los 6 estadísticos básicos del summary son:
+
+```{r}
+min(paises07Summ$pib_per_capita, na.rm=TRUE)
+quantile(paises07Summ$pib_per_capita, 0.25, na.rm=TRUE)
+median(paises07Summ$pib_per_capita, na.rm=TRUE)
+mean(paises07Summ$pib_per_capita, na.rm=TRUE)
+quantile(paises07Summ$pib_per_capita, 0.75, na.rm=TRUE)
+max(paises07Summ$pib_per_capita, na.rm=TRUE)
+```
+
+El parámetro `na.rm=TRUE` evita que las funciones resumen, devuelvan un NA debido a la presencia de NA s en la variable `pib_por_capita`. Observa como esto sucede en la siguiente función. 
+
+```{r}
+mean(paises07Summ$pib_per_capita)
+```
+
+La función `quantile()`, por sí sola, puede calcular todos los valores, excepto la media.
+
+```{r}
+kable(quantile(paises07Summ$pib_per_capita, seq(0,1,1/4), na.rm=TRUE))
+```
+
+## Tablas de frecuencias
+
+Para obtener una tabla de frecuencias, utiliza `table()`. Para una variable.
+
+```{r}
+kable(table(paises07Summ$continente))  # una variable
+```
+
+Tablas cruzadas de dos o más variables.
+
+```{r}
+kable(table(paises07Summ$continente,paises07Summ$es_grande))
+```
+
+> Asia es el continente con mayor número de países grandes (de más de 30M de hab.).
+
+En muchas ocasiones, es útil tramar las variables numéricas en intervalos. En R utiliza `cut()`.
+
+Vamos a crear la variable nivel de riqueza a partir del pib_per_capita cortando la variable por 1700$ y 18000$.
+
+```{r}
+paises07Summ$nivel_de_riqueza <- cut(paises07Summ$pib_per_capita, 
+                                         breaks=c(-Inf,1700,18000,Inf))
+```
+
+```{r, eval=FALSE}
+kable(head(paises07Summ[,c("pais","pib_per_capita","nivel_de_riqueza")]))
+```
+
+> Para definir los `breaks`, R permite utilizar `-Inf` e `Inf` (infinito) como si fueran números.
+
+`cut()` crea un `factor` ordenado a partir de la variable `numeric` con los siguientes levels:
+
+```{r}
+levels(paises07Summ$nivel_de_riqueza)
+```
+
+Para modificar las etiquetas utiliza la misma función `levels()`. 
+
+```{r}
+levels(paises07Summ$nivel_de_riqueza) <- c("Pobres","Medios","Ricos")
+```
+
+Mostramos a continuación la distribución de países ricos y pobres por continente en 2007.
+
+```{r}
+kable(table(paises07Summ$continente, paises07Summ$nivel_de_riqueza, useNA = "ifany"))
+```
+
+Gráficamente.
+
+```{r}
+ggplot(paises07Summ) +
+  geom_bar(aes(x=continente, fill=nivel_de_riqueza), position = "fill") +
+  labs(y="%")
+```
+
+> Para definir el nivel de riqueza de los países en 2007 se ha realizado la siguiente transformación:
+
+```{r}
+paises07$nivel_de_riqueza <- cut(paises07$pib_per_capita, breaks=c(-Inf,1700,18000,Inf))
+levels(paises07$nivel_de_riqueza) <- c("Pobres","Medios","Ricos")
+```
+
+## Agregados por subgrupos
+
+Además de frecuencias, es necesario saber calcular otros estadísticos básicos para subgrupo de un data frame. Por ejemplo, la media de esperanza de vida y del pib per cápita, así como, el total de población por continente y nivel de riqueza.
+
+```{r}
+agg1 <- aggregate(paises07[,c("esperanza_de_vida","pib_per_capita")],
+                  list(continente = paises07$continente
+                       , nivel_de_riqueza=paises07$nivel_de_riqueza),mean)
+agg2 <- aggregate(paises07[,c("poblacion"),drop=FALSE],
+                  list(continente = paises07$continente
+                       , nivel_de_riqueza=paises07$nivel_de_riqueza),sum)
+```
+
+> \<recuerda\>aggregate() permite calcular un mismo estadístico sobre varias variables segmentando por más de un eje.\</recuerda\>
+
+Se juntan ahora los dos agregados con `merge()` y se genera la variable combinada `continente_riqueza`.
+
+```{r}
+agg3 <- merge(agg1,agg2)
+agg3$continente_riqueza <- paste(agg3$continente,agg3$nivel_de_riqueza,sep="-")
+
+kable(agg3)
+```
+
+El mismo gráfico visto para países, ahora, agregado a nivel de continente y riqueza.
+
+```{r, fig.cap='Contienentes (Fuente: Elaboración propia, datos de Gapminder)'}
+ggplot(agg3, aes(x=pib_per_capita
+                          , y=esperanza_de_vida
+                          , label=continente_riqueza
+                          , color =continente
+                          , size=poblacion)) +
+  geom_point() +
+  geom_label_repel(size=3, force=10) +
+  scale_x_log10() +
+  labs(title="Continentes-riqueza en 2007 (no ponderado)")
+```
+
+## La familia apply
+
+Como se ha comentado, las funciones apply permiten vectorizar las operaciones de forma eficiente, sin utilizar bucles `for()`.
+
+### tapply {-}
+
+Es una alternativa a aggregate() para aplicar una función de agregación sobre una única variable y segmentando por un único eje.
+
+```{r}
+tapply(paises07$esperanza_de_vida,paises07$continente,quantile,probs=0.25)
+```
+
+### lapply {-}
+
+Permite aplicar una función sobre cada elemento de un vector o lista. Devuelve una lista.
+
+```{r}
+lapply(paises07[,-1], function(x) summary(x))
+```
+
+### sapply {-}
+
+Misma funcionalidad que lapply, pero simplificando el resultado a vector cuando es posible.
+
+```{r}
+sapply(paises07, function(x) class(x))
+```
+
+### apply {-}
+
+Calcula agregados sobre cada una de los vectores marginas fila (`MARGIN = 1`), alternativamente columna (`MARGIN = 2`) de una matriz.
+
+```{r}
+a <- matrix(1:10,ncol=2)
+apply(a,MARGIN = 1,sum)
+```
+
+Columnas,
+
+```{r}
+a <- matrix(1:10,ncol=2)
+apply(a,2,sum)
+```
+

@@ -1,0 +1,42 @@
+--- 
+title: "Mètodes Estadístics Aplicats a Ciències Polítiques"
+author: "Ferran Carrascosa Mallafrè"
+date: "2021-01-03"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    split_by: chapter
+    includes:
+      in_header: style.html
+    highlight: espresso
+documentclass: book
+bibliography: [meacp.bib, packages.bib, packages.bib, references.bib]
+biblio-style: apalike
+link-citations: yes
+nocite: | 
+  @ferranc
+description: "Curs de mètodes estadístics aplicats a l'àrea de ciències polítiques."
+---
+
+```{r child = '_header.Rmd'}
+```
+
+# Introducció  {-}
+
+Aquest material está enfocat a 
+
+<hr>
+
+Aquest llibre digital es troba sota la llicencia [Reconeixement-NoComercial-SenseObraDerivada 4.0 Internacional (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ca).
+
+<hr>
+
+## Estructura del llibre {-}
+
+- Computació en R
+- Model de regressió simple i múltiple
+- Regressió amb variable dependent dicotòmica
+- Reducció de la dimensión o anàlisi de components principals i factorial
+- Classificació i anàlisi d’agrupaments
+- L’anàlisi de correspondències i altres mètodes d’anàlisi multivariada
+
