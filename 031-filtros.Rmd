@@ -1,7 +1,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Filtrado de objetos
+## Filtrado de objetos
 
 Para filtrar matrices y data frames se utiliza corchetes separados por coma `[,]`. En el caso de vectores, corchetes simples `[]`.
 
@@ -25,7 +25,7 @@ Con `head()` (respec. `tail()`), se obtiene las primeras (resp. últimas) 6 fila
 kable(head(paises07))
 ```
 
-## Enteros positivos {-}
+### Enteros positivos {-}
 
 Se puede indicar las posiciones fila y columna a seleccionar. Por ejemplo, la esperanza de vida de Angola y Australia. 
 
@@ -54,7 +54,7 @@ a[c(2,2,1,5)]
 
 Observa que se pueden repetir posiciones o índices. Tampoco es necesario mantener un orden monótono en los índices.
 
-## Enteros negativos {-}
+### Enteros negativos {-}
 
 Selecciona todas las columnas (alternativamente las filas) excepto las posiciones indicadas con valor negativo.
 
@@ -62,7 +62,7 @@ Selecciona todas las columnas (alternativamente las filas) excepto las posicione
 kable(head(paises07[,-c(3,5)]))
 ```
 
-## Nombres {-}
+### Nombres {-}
 
 Se utiliza habitualmente para seleccionar las columnas por su nombre.
 
@@ -70,7 +70,7 @@ Se utiliza habitualmente para seleccionar las columnas por su nombre.
 kable(head(paises07[, c("pais","esperanza_de_vida")]))
 ```
 
-## Dolares y dobles corchetes {-}
+### Dolares y dobles corchetes {-}
 
 En listas y data frames se puede obtener un elemento con `$nombre` , o bien, con corchetes dobles
 
@@ -81,7 +81,7 @@ head(paises07[["esperanza_de_vida"]])
 
 > Una fuente habitual de error es intentar seleccionar las columnas de un objeto `matrix` con `$nombre` o dobles corchetes. Esto produce un error.
 
-## Valores lógicos {-}
+### Valores lógicos {-}
 
 Se seleccionan las posiciones con valores `TRUE` o `T` y se descartan las posiciones `FALSE` o `F`.
 
@@ -137,7 +137,7 @@ c(1, 2, 3, 4) %in% c(3, 4, 5)
 
 > En operadores booleanos utiliza `==` en vez del operador '='. Este último, hace la misma operación que `<-` de asignación de valores a objetos.
 
-## Operaciones booleanas {-}
+### Operaciones booleanas {-}
 
 Puedes construir expresiones lógicas complejas utilizando los operadores booleanos habituales:
 

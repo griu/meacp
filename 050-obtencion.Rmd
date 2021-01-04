@@ -1,0 +1,53 @@
+
+```{r child = '_header.Rmd'}
+```
+
+# Fuentes de dades
+
+## Algunmos orígenes:
+
+Algunos orígenes de datos de interés son:
+
+* **Baròmetre del CEO**: https://ceo.gencat.cat/ca/barometre/
+* **Institut d’Estadística de Catalunya**: https://www.idescat.cat/
+* **Resultats electorals (Catalunya)**: https://eleccions.gencat.cat/ca/resultats-electorals/#/
+* **Resultados electorales (España)**: http://www.infoelectoral.mir.es/infoelectoral/min/areaDescarga.html?method=inicio
+* **Microdatos de INE (Insituto Nacional Estadística)**: http://www.ine.es/prodyser/microdatos.htm
+* **EU Open data portal**: https://data.europa.eu/euodp/en/data
+* **PISA Data**: http://www.oecd.org/pisa/data/
+* **European Social Survey (2018 - SPSS)**: https://www.europeansocialsurvey.org/data/round-index.html
+* **Open Data USA**: https://www.data.gov/
+* **USA General Social Survey (2018 - SPSS)**: https://gss.norc.org/get-the-data/spss
+* **package psData**: Download Regularly Maintained Political Science Data Sets
+ https://cran.r-project.org/web/packages/psData/index.html
+* **package poliscidata**: Datasets and Functions Featured in Pollock and Edwards, an R Companion to Essentials of Political Analysis, Second Edition:  https://cran.r-project.org/web/packages/poliscidata/index.html
+* **package WDI**: World Development Indicators and Other World Bank Data: https://cran.r-project.org/web/packages/WDI/index.html
+* **package manifestoR**: Access and Process Data and Documents of the Manifesto Project
+
+## Más origenes
+
+Resulta de gran interès la lectura del [Capítulo 5: Get existing](http://qpolr.com/datadownload.html) (Gahner y Zoltán , 2019).
+
+En concreto resulta de especial interès el enlace al siguiente [Directorio en Excel](https://github.com/erikgahner/PolData/raw/master/PolData.xlsx) de más de 400 orígenes de datos políticos de todo el mundo. Estan categorizados por: tema, pais, fechas, disponibilidad, formato, registro, enlace al diseño...
+
+Más datos paquetes con datos des de GitHub (instalar previamente paquete remotes):
+
+- `remotes::install_github("arcruz0/paqueteadp")`: Datos de apoyo al libro [AnalizaR Datos Políticos](https://arcruz0.github.io/libroadp/index.html)
+- `remotes::install_github("jamesmartherus/anesr")`: American National Election Study 
+- `remotes::install_github("xmarquez/vdem")`: Varieties of Democracy into R
+
+## Crear datos
+
+Otro camino más complejo es crear tu propia base de datos. Una opción seria el desarrollo de una encuesta. En este sentido Google Forms es una excelente herramienta para realizar encuestas online.
+
+Para mas opciones se recomienda la lectura del [Capítulo 6: Create data](http://qpolr.com/create.html) (Gahner y Zoltán , 2019), donde se explicam alguinos pasos en realizar web scraping de datos, parlamentos, Twitter, Google Trends, Wikipedia...
+
+## Criterios selección
+
+Algunos criterios para seleccionar un conjunto de datos son:
+
+- Datos de tu interés
+- Que tenga suficientes filas: Si bien no es un criterio preciso, es aconsejable que la base del proyecto tenga un mínimo entre 7 y 10 filas por cada variable del modelo. Por ejemplo, su quieres introducir un mínimo de 5 variables, como mínimo deberias tener 50 filas. Es decir, evita escojer datos de Comunidades autónomos (17) y usa como mínimo datos de provincia (52).
+- Que haya diversidad de tipología de variables: Continuas, categóricas, ordinales...
+- Selecciona cual va a ser tu variable dependiente y cuales las independientes.
+

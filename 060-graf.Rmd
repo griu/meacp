@@ -5,15 +5,16 @@
 
 > Un simple gráfico ha brindado más información a la mente del analista de datos que cualquier otro dispositivo. - John Tukey
 
-## Estructura básica de ggplot2
+## Estructura básica
 
 ggplot2 es un sistema coherente para hacer gráficos.
 
 ```{r fig.cap="Altura padres e hijos (Galton, 1885)"}
 suppressPackageStartupMessages(library(tidyverse))
-data(galton)
+suppressPackageStartupMessages(library(HistData))
+data(Galton)
 
-ggplot(data= galton, mapping = aes(x=parent, y= child)) + 
+ggplot(data= Galton, mapping = aes(x=parent, y= child)) + 
   geom_point()
 ```
 
@@ -22,9 +23,7 @@ La altura de los padres es la media entre la altura del padre y 1.08 veces la de
 Para visualizar los datos resulta útil introducir aleatoridad con jitter.
 
 ```{r , fig.cap="Jitter altura padres e hijos (Galton, 1885)"}
-data(galton)
-
-ggplot(data= galton, mapping = aes(x=parent, y= child)) + 
+ggplot(data= Galton, mapping = aes(x=parent, y= child)) + 
   geom_jitter()
 ```
 
@@ -37,7 +36,7 @@ Los componentes mínimos son:
 A diferencia de `plot`, `ggplot` permite asignar el gráfico a un objeto R.
 
 ```{r}
-p1 <- ggplot(data= galton, mapping = aes(x=parent, y= child)) + 
+p1 <- ggplot(Galton, aes(x=parent, y= child)) + 
   geom_jitter()
 ```
 
@@ -56,7 +55,7 @@ p1
 > Si defines el mapeo de estéticos en `ggplot` ya no es necesario definirlos en los geoms.
 
 
-### Otros geoms {-}
+## Otros geoms
 
 Otros ejemplos de geoms con los datos de países en 2007.
 
@@ -88,7 +87,7 @@ plot_grid(p1, p2, p3, p4,
   labels = c("histograma","barras","boxplot","Etiquetas"), ncol = 2)
 ```
 
-### Otros elmentos gráficos {-}
+## Otros elmentos
 
 Otros elementos a tener en cuenta en la presentación: 
 
@@ -107,6 +106,100 @@ Para ampliar la lectura consulta:
 - [ggplot2 extensions guide](https://exts.ggplot2.tidyverse.org/gallery/) lista los paquetes que extienden `ggplot2`.
 - La [{ggplot2} cheat sheet](https://www.statsandr.com/blog/files/ggplot2-cheatsheet.pdf).
 
+
+## Más ejemplos
+
+### Panel de datos {-}
+
+- `facet_wrap()`
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE,  fig.cap="Más [facet_wrap() y facet_grid()](http://zevross.com/blog/2019/04/02/easy-multi-panel-plots-in-r-using-facet_wrap-and-facet_grid-from-ggplot2/)"}
+p00 <- ggplot(paises
+    , aes(x=pib_per_capita
+    , y=esperanza_de_vida
+    , color=continente
+    , size=poblacion
+    , label=pais))+
+  geom_point() +
+  scale_x_log10() +
+  facet_wrap(~anio)+
+  labs(title="Paises en 2007")
+
+p00
+```
+
+### Etiquetas {-}
+
+- `geom_label()`
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Más [geom_label()](https://www.r-graph-gallery.com/275-add-text-labels-with-ggplot2.html)"}
+p07 <- ggplot(paises07
+    , aes(x=pib_per_capita
+    , y=esperanza_de_vida
+    , color=continente
+    , size=poblacion))+
+  geom_point() +
+  scale_x_log10() +
+  labs(title="Paises en 2007")+
+  geom_label(data=paises07 %>% 
+    filter(pais=="China")
+    , nudge_y=2
+    , aes(label=pais)
+    , size=4
+    , color="black")
+
+p07
+```
+
+### Paleta colores {-}
+
+- `scale_colour_brewer()`
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Más paletas [COLORBREWER](https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html)"}
+p07 <- p07 + 
+  scale_colour_brewer(
+    palette = "Dark2")
+
+p07
+```
+
+### Zoom {-}
+
+- `coord_cartesian()`
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Más [coord_cartesian()](https://ggplot2.tidyverse.org/reference/coord_cartesian.html)"}
+p07 <- p07 + 
+  coord_cartesian(
+    xlim=c(300,5000)
+    , ylim=c(38,45))
+
+p07
+```
+
+### Temas {-}
+
+- `theme_bw()`
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Más en [ggtheme](https://ggplot2.tidyverse.org/reference/ggtheme.html)"}
+p07 <- p07 + 
+  theme_bw()
+
+p07
+```
+
+### Gráficos interactivos {-}
+
+- `ggplotly()`
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, fig.cap="Más [R Plotly](https://plotly.com/r/)"}
+suppressPackageStartupMessages(
+  library(plotly))
+
+ggplotly(p00)
+```
+
+- Mueve el raton por encima del gráfico para identificar los países.
+- Des de la leyenda puedes filtrar los continentes que se quieren mostrar.
 
 ##### Actividad guiada 1.3. {-}
 

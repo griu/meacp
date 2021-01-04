@@ -1,11 +1,13 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Colecciones de objetos
+# Objetos de R
 
-## Tipo básicos
+## Colecciones de objetos
 
-### Numeric {-}
+### Tipo básicos
+
+#### Numeric {-}
 
 Los números, en R, en general se guardan en coma flotante y doble precisión (`"double"`). 
 
@@ -23,7 +25,7 @@ La precisión doble es exacta hasta los 16 dígitos. La siguiente expresión deb
 sqrt(2)^2 - 2
 ```
 
-### Integer {-}
+#### Integer {-}
 
 Para indicar que es un entero, hay que finalizar el número con L mayúscula. Ahorran memoria pero pierden precisión. No es muy habitual su uso en Data Science.
 
@@ -33,7 +35,7 @@ class(a)
 typeof(a)
 ```
 
-### Logical {-}
+#### Logical {-}
 
 Los tipos lógicos `TRUE` (o `T`) y `FALSE` (o `F`), son de uso común para filtrar vectores. 
 
@@ -51,7 +53,7 @@ b <- as.numeric(a)
 b
 ```
 
-###  Character {-}
+####  Character {-}
 
 Texto entre comas simple o dobles.
 
@@ -61,11 +63,11 @@ class(a)
 typeof(a)
 ```
 
-###  Factor {-}
+####  Factor {-}
 
 Información categórica, por ejemplo, el color de los ojos. Por su naturaleza de conjunto, se explican dentro de la sección de vectores.
 
-###  Fechas y horarios {-}
+####  Fechas y horarios {-}
 
 Las fechas y horarios, son una clase compleja. Internamente son de tipo `"double"` con dos clases:  `"POSIXct"` `"POSIXt"`.
 
@@ -99,7 +101,7 @@ unclass(b)
 
 Se ampliará esta clase en el capítulo dedicado al package `lubridate`.
 
-## Vectores
+### Vectores
 
 Se define mediante la función `c()`. Adopta el mismo tipo básico que los datos que lo componen.
 
@@ -111,7 +113,7 @@ class(c("es", "un", "vector"))
 class(c(Sys.Date(), Sys.Date() + 1, Sys.Date()+2))
 ```
 
-### Longitud {-}
+#### Longitud {-}
 
 Con `length()` se obtiene el número de elementos.
 
@@ -120,7 +122,7 @@ a <- c(2,4,6)
 length(a)
 ```
 
-### Nombres {-}
+#### Nombres {-}
 
 Los vectores pueden tener atributos. Es de uso común el atributo `names`.
 
@@ -129,7 +131,7 @@ names(a) <- c("dos","cuatro", "seis")
 a
 ```
 
-### Operaciones aritméticas {-}
+#### Operaciones aritméticas {-}
 
 Operaciones aritméticas con vectores.
 
@@ -139,7 +141,7 @@ c(1,2,3) + c(4,5,6) # suma vectores
 c(1,2,3) * c(4,5,6) # producto elemento a elemento
 ```
 
-### Operaciones con texto {-}
+#### Operaciones con texto {-}
 
 ```{r}
 paste(1:3,c("uno","dos", "tres"), sep="-") # junta vectores
@@ -147,7 +149,7 @@ paste(c("Hola,","Mundo!"), collapse = " ") # junta elementos de un vector
 substr("abcdefgh", 3, 4)   # subcadenas
 ```
 
-### Secuencias {-}
+#### Secuencias {-}
 
 ```{r}
 3:5
@@ -156,7 +158,7 @@ rep(0, times = 3)
 rep(1:3, each = 2)
 ```
 
-### Factor {-}
+#### Factor {-}
 
 Son vectores de enteros, donde cada entero tiene asignado una etiqueta.  
 
@@ -187,7 +189,7 @@ También se pueden transformar a `character` con `as.character()`.
 as.character(color_ojos)
 ```
 
-## Matrices
+### Matrices
 
 Las matrices añaden otra dimensión (fila) a los vectores (columna). 
 
@@ -203,7 +205,7 @@ a <- matrix(1:6, ncol = 2, byrow = TRUE)
 a
 ```
 
-### Dimensión {-}
+#### Dimensión {-}
 
 Se puede consultar el número de filas y columnas con `dim()`, `ncol()` y `nrow()`.
 
@@ -213,7 +215,7 @@ nrow(a)
 ncol(a)
 ```
 
-### Nombres {-}
+#### Nombres {-}
 
 Se puede asignar nombres a las filas y a las columnas.
 
@@ -223,7 +225,7 @@ rownames(a) <- LETTERS[1:(nrow(a))]
 a
 ```
 
-### Arrays
+#### Arrays
 
 Se puede generalizar las matrices a más de 2 dimensiones con `array()`.
 
@@ -232,7 +234,7 @@ a <- array(11:18, dim=c(2,2,2))
 a
 ```
 
-## Listas
+### Listas
 
 Las listas permiten agrupar objetos R con distintos tipos de datos.
 
@@ -241,7 +243,7 @@ a <- list(11:13, "R", matrix(1:4,2,2))
 a
 ```
 
-### Nombres {-}
+#### Nombres {-}
 
 Se les puede asignar un nombre a cada elemento.
 
@@ -249,7 +251,7 @@ Se les puede asignar un nombre a cada elemento.
 names(a) <- c("es_num", "es_char", "es_matriz")
 ```
 
-## Data frames
+### Data frames
 
 Formalmente son una lista de vectores de la misma longitud. Tienen forma de matriz.
 

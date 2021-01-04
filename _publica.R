@@ -2,6 +2,7 @@
 
 # render bookdown
 setwd("C:/Users/usuari/Documents/GitHub/meacp")
+aaa<-unlink("C:/Users/usuari/Documents/GitHub/meacp/_book/",recursive=TRUE, force=TRUE)
 bookdown::render_book("index.Rmd")
 # copia
 setwd("C:/Users/usuari/Documents/GitHub/blogdown/public")

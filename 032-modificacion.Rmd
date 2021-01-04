@@ -1,11 +1,11 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Modificacion objetos
+## Modificacion objetos
 
 R ofrece algunas facilidades para modificar los valores de sus objetos.
 
-## Filtro y asignación "`]<-`"  {-}
+### Filtro y asignación "`]<-`"  {-}
 
 Para modificar uno elemento de un vector, R te ofrece la posibilidad de aplicar un filtro con corchetes seguido de una asignación.
 
@@ -66,7 +66,7 @@ paises07$identificador <- NULL
 colnames(paises07)
 ```
 
-## Información faltante {-}
+## Información faltante
 
 Para marcar los valores faltantes en R se utiliza la combinación `NA` (acrónimo de *Not Available*). Este valor especial tiene su propia aritmética.
 
@@ -81,7 +81,7 @@ Es decir, cuando un valor es desconocido, la mejor opción es no evaluar la suma
 c(8, NA) > 0
 ```
 
-## Seleccion de filas con valores faltantes {-}
+### Seleccion filas missings {-}
 
 Para seleccionar las filas con valores faltantes, entre otros usos, puedes utilizar la  función `is.na()`. 
 
@@ -101,7 +101,7 @@ Para seleccionar los registros con missing en una columna.
 kable(paises07NA[is.na(paises07NA$pib_per_capita),])
 ```
 
-## Filtros en variables con valores faltantes {-}
+### Filtros missings {-}
 
 La presencia de NA en una variable dificulta la definición de condiciones lógicas.  Por ejemplo, si seleccionamos países con PIB per cápita inferior a 500 dólares se obtiene el siguiente resultado incorrecto:
 

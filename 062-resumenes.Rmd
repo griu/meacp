@@ -104,7 +104,19 @@ ggplot(paises07Summ) +
   labs(y="%")
 ```
 
-> Para definir el nivel de riqueza de los países en 2007 se ha realizado la siguiente transformación:
+Para calcular la tabla de porcentajes que se observan en el gráfico se utiliza `prop.table(., margin = ?)`, dónde ? vale 1 para obtener el % fila y 2 para el % columna. 
+
+Para incluir la suma marginal por filas se utiliza `addmargins(.,margin = ?)`,  dónde ? vale 1 para incluir el total suma marginal fila y 2 para el total columna.
+
+```{r}
+tabla1 <- table(paises07Summ$continente, paises07Summ$nivel_de_riqueza, useNA = "ifany")
+tabla1 <- addmargins(tabla1, margin = 1) # total marginal columna (antes que el %)
+tabla1 <- 100 * prop.table(tabla1, margin = 1)  # porcentaje fila
+tabla1 <- addmargins(tabla1, margin = 2) # total marginal fila 
+kable(tabla1,digits = 1)
+```
+
+> Observa que para definir el nivel de riqueza de los países en 2007 se ha realizado la siguiente transformación:
 
 ```{r}
 paises07$nivel_de_riqueza <- cut(paises07$pib_per_capita, breaks=c(-Inf,1700,18000,Inf))

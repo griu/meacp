@@ -3,15 +3,17 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Lectura escritura 
+# Lectura escritura {#DataIO}
 
 A continuación, se presentan las funciones para la lectura/escritura de datos, cruce y construcción de tablas resumen. 
 
-### IMPORTAR Y EXPORTAR DATOS
+## Datos de texto
 
 RStudio aporta facilidades para la importación de datos a través del menú: `File -> Import Data set -> From Text...`
 
-#### LECTURA TEXTO CON SEPARADOR
+No obstante lo más habitual es importar a través de código.
+
+### Lectura texto con separador {-}
 
 Para leer el siguiente fichero de texto:
 
@@ -59,7 +61,7 @@ kable(head(mtcars))
 kable(summary(mtcars))
 ```
 
-#### ESCRITURA TEXTO CON SEPARADOR
+### Escritura texto con separador {-}
 
 Para la escritura, puedes utilizar sus equivalentes: `write.table()`, `write.csv()`, `write.csv2()`. Cabe destacar algunas pequeñas variaciones.  
 
@@ -76,7 +78,7 @@ Observa como el nuevo csv ahora tiene el formato de csv europeo.
 cat(paste0(readLines("www/temp/mtcars2.csv", n = 6), collapse="\n"))
 ```
 
-#### TEXTO CON ANCHO FIJO
+### Texto con ancho fijo {-}
 
 Veamos un ejemplo de fichero de ancho fijo:
 
@@ -98,3 +100,20 @@ fwf_sample <- read.fwf("www/data/fwf-sample.txt", widths=c(20,10,12)
 kable(fwf_sample)
 ```
 
+## Otros formatos
+
+### Leer Excel {-}
+ 
+```{r, eval = FALSE}
+library(readxl)
+data <- read_excel("www/data/data.xlsx")
+```
+ 
+### Leer SPSS {-}
+
+```{r, eval = FALSE}
+library(foreign)
+data<-read.spss("http://psych.colorado.edu/~carey/Courses/PSYC7291/DataSets/SPSS/crime.sav", to.data.frame =TRUE, use.value.labels = TRUE)
+```
+
+Recuerda que también puedes utilizar `load` y `save` para leer y escribir objetos de R.
