@@ -1,7 +1,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Gráficos con ggplot2
+# Gráficos con ggplot2 {#ggplot2graph}
 
 > Un simple gráfico ha brindado más información a la mente del analista de datos que cualquier otro dispositivo. - John Tukey
 

@@ -2,5 +2,12 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Regressió logística
+# Regressió logística {#logistica}
 
+- Regressió amb variable dependent dicotòmica
+
+    - Formulació del model de regressió logística
+    - Estimación de màxima versemblança del model
+    - Diagnosis i ajust del model
+    - Gràfics d’efectes parcials
+    - Discussió del output de regressió logística

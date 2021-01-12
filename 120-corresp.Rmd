@@ -2,4 +2,16 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Análisis de correspondencies
+# Análisis correspondencies {#acorresp}
+
+
+- L’anàlisi de correspondències i altres mètodes d’anàlisi multivariada
+
+    - Taules de contingència
+    - Conceptes de l’análisis de correspondències
+    - Inèrcia de la taula
+    - Dimensions principals
+    - Gràfics de l’anàlisi de corresponències
+    - Més de dues variables categòriques
+    - Escalament òptim,
+    - Us d’escalament òptim en l’SPSS.

@@ -2,7 +2,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Resumenes de agregados 
+# Resumenes de agregados {#resumagg}
 
 R tiene muchas opciones para construir agregados.
 

@@ -3,7 +3,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Posta a punt
+# Posta a punt {#postapunt}
 
 ## R
 
@@ -93,6 +93,7 @@ install.packages("pander")
 install.packages("kableExtra")
 install.packages("tidyverse")
 install.packages("ggrepel")
+install.packages("ggcorrplot")
 install.packages('rmarkdown')
 install.packages("DT")
 install.packages("plotly")

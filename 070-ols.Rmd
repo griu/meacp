@@ -3,5 +3,16 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Regressió lineal
+# Regressió lineal {#lineal}
 
+- Model de regressió simple i múltiple
+
+    - Equació del model de regressió
+    - Hipótesis estadístiques del model
+    - Ajust i diagnostic del model
+    - Gràfics de regressió parcial
+    - Problemes de no-linealitat
+    - Transformació de les variables
+    - Heteroscedasticitat
+    - Multicol·linealitat
+    - Residus i dades influents

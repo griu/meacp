@@ -1,7 +1,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Objetos de R
+# Objetos de R {#objectesr}
 
 ## Colecciones de objetos
 

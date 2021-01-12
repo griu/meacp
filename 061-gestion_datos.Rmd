@@ -2,7 +2,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Cruces entre tablas
+# Cruces entre tablas {#datacross}
 
 ## Ordenación y Union
 

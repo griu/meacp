@@ -2,7 +2,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Elementos básicos
+# Elementos básicos {#basics}
 
 Aunque se presuponen unos conocimientos iniciales de R, a continuación se hace un repaso de R y RStudio.
 

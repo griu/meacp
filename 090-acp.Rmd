@@ -3,5 +3,16 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Componentes principales
+# Componentes principales {#acp}
 
+- Reducció de la dimensión o anàlisi de components principals i factorial:
+
+    - Problema de la reducción de la dimensión
+    - Components principals
+    - Matriu de les components
+    - Bondat de la representaciò
+    - Gràfic dels individus
+    - Gràfic de les variables
+    - Biplot
+    - Rotación dels factors
+    - Temes de l’anàlisi factorial

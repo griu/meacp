@@ -1,0 +1,18 @@
+
+```{r child = '_header.Rmd'}
+```
+
+# Clustering {#cluster}
+
+- Classificació i anàlisi d’agrupaments
+
+    - Concepte de distància entre subjectes
+    - Agrupación jeràcquica aglomerativa
+    - Segmentación de individus
+    - Lectura de gràfic “dendograma”
+    - Classificació per “k-means”
+    - Altres mètodes de classificació
+
+## Cluster jerarquic {#jerarquic}
+
+## Cluster no jerarquic {#kmeans}

@@ -23,7 +23,7 @@ description: "Curs de mètodes estadístics aplicats a l'àrea de ciències pol�
 
 # Introducció  {-}
 
-Aquest material está enfocat a 
+Aquest material, si ve té un enfocament genèric d'anàlisis, en diferents capítols, tant per les dades escollides com per les preguntes d'analisis s'ha enfocat a alumnes de Cìencies Polítiques.
 
 <hr>
 
@@ -31,12 +31,7 @@ Aquest llibre digital es troba sota la llicencia [Reconeixement-NoComercial-Sens
 
 <hr>
 
-## Estructura del llibre {-}
+## Agraïments {-}
 
-- Computació en R
-- Model de regressió simple i múltiple
-- Regressió amb variable dependent dicotòmica
-- Reducció de la dimensión o anàlisi de components principals i factorial
-- Classificació i anàlisi d’agrupaments
-- L’anàlisi de correspondències i altres mètodes d’anàlisi multivariada
+Els meus agraïments per Albert Satorra pels ja més de 15 anys compartint docència tant a la facultat de Ciències Polítiques, com a les facultats d'Economia y ADE a la UPF.
 

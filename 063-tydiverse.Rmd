@@ -2,7 +2,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Alternativas Tydiverse
+# Alternativas Tydiverse {#tydiverse}
 
 El universo de [Tydiverse](https://www.tidyverse.org/) consiste en una colección de packages de R orientados al Data Science. Se recomienda la consulta del libro online [R para Ciencia de Datos](https://es.r4ds.hadley.nz/index.html).  
 
