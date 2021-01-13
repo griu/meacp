@@ -3,7 +3,7 @@
 ```{r child = '_header.Rmd'}
 ```
 
-# Lectura escritura {#readwrite}
+# Lectura escritura {#dataio}
 
 A continuación, se presentan las funciones para la lectura/escritura de datos, cruce y construcción de tablas resumen. 
 
