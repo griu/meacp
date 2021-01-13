@@ -123,11 +123,26 @@ Puedes generar de forma dinámica documentos PDF, Word (como éste que estás le
 
 ### Comandos Rmarkdown {-}
 
-- **R chunks**: \`\`\`{r, options} CODIGO R \`\`\`: echo, eval, fig.cap, warning, message. Opciones:
+- **R chunks**: 
+
+```
+### ```{r, options} 
+### CODIGO de R 
+### ```
+```
+
+Parámetros: echo, eval, fig.cap, warning, message. Opciones:
+
    - `include = FALSE` : Ejecuta pero no muestra el código ni resultados.
    - `echo = FALSE` : No muestra el código, pero sí el resultado (tablas, gráficos...).
    - `fig.cap = "..."` : Añade un texto al pie de imagen.
-- **R inline**: \` r CODIGO R\`
+
+- **R inline**: 
+
+```
+### ` r CODIGO R\`
+```
+
 - **Titulo**: \# TITULO1,  \#\# TITULO2
 - **Emphasis**: Negrita con `**string**` . Cursiva con `*string*`
 - **Link externo**: `[texto enlace](http://url)`
